@@ -14,17 +14,17 @@ export class AuthController {
   };
 
   registerUser = (req: Request, res: Response) => {
-    const [error, registerUserDto] = RegisterUserDto.create(req.body);
+    const [error, registerDto] = RegisterUserDto.create(req.body);
     if (error) return res.status(400).json({ error });
 
     this.authService
-      .registerUser(registerUserDto!)
+      .registerUser(registerDto!)
       .then((user) => res.json(user))
       .catch((error) => this.handleError(error, res));
   };
 
   loginUser = (req: Request, res: Response) => {
-    const [error, loginUserDto] = LoginUserDto.login(req.body);
+    const [error, loginUserDto] = LoginUserDto.create(req.body);
     if (error) return res.status(400).json({ error });
 
     this.authService

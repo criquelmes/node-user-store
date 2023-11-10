@@ -11,7 +11,7 @@ export class MongoDatabase {
 
     try {
       await mongoose.connect(mongoUrl, {
-        dbName,
+        dbName: dbName,
       });
 
       return true;
