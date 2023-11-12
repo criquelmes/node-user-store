@@ -15,20 +15,22 @@ export class FileUploadController {
   };
 
   uploadFile = (req: Request, res: Response) => {
-    const files = req.files;
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).json({ error: "No files were selected." });
-    }
-
-    const file = req.files.file as UploadedFile;
+    const type = req.params.type;
+    const file = req.body.files.at(0) as UploadedFile;
 
     this.fileUploadService
-      .uploadSingle(file)
+      .uploadSingle(file, `uploads/${type}`)
       .then((uploaded) => res.json(uploaded))
       .catch((error) => this.handleError(error, res));
   };
 
   uploadMultipleFiles = (req: Request, res: Response) => {
-    res.json("Multiple files uploaded successfully");
+    const type = req.params.type;
+    const files = req.body.files as UploadedFile[];
+
+    this.fileUploadService
+      .uploadMultiple(files, `uploads/${type}`)
+      .then((uploaded) => res.json(uploaded))
+      .catch((error) => this.handleError(error, res));
   };
 }
